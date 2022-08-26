@@ -7,6 +7,8 @@ import PersonalInfo from './PersonalInfo';
 import Final from './Final';
 import FadeInOut from "./FadeInOut";
 import { Button, Form, ProgressBar } from 'react-bootstrap';
+import latLogo from '../assets/Main White Lateral with Circle.png'
+
 // Javascript Functions
 import { useSignup } from '../Hooks/useSignup'
 
@@ -124,7 +126,10 @@ export default function MyForm() {
                     className={`m-auto shadow rounded p-5 form`}
                 >
                     <div>
-                        <ProgressBar now={calcPercent()} label={`${calcPercent()}%`} style={{"marginBottom": "20px"}} />
+                        <div className="dark-background full-bleed">
+                            <img src={latLogo} className="main-lat-logo"/>
+                            <ProgressBar now={calcPercent()} label={`${calcPercent()}%`} style={{"marginBottom": "20px"}} />
+                        </div>
                         <h3 className="form-title">{formTitles[page] }</h3>
                         {formDisplay()}
 

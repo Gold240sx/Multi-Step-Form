@@ -19,17 +19,6 @@ body {
     rgba(253,187,45,1) 100%);
 }
 
-.App:after {
-  background-image: url("/FUrfhkyXsAwgIof.jpeg");
-  background-size: cover;
-  background-repeat: no-repeat;
-  margin-top: 0;
-  pointer-events: none;
-  opacity: 40% !important;
-  font-size: 18px;
-  height: 100vh;
-}
-
 .form-page {
   transition: 2s ease-in-out !important;
   transition-delay: 500ms;
@@ -195,6 +184,10 @@ table {
   display: none;
 }
 
+.form {
+  padding-block: 1.5rem !important;
+}
+
 label.input-val-icons {
   position: absolute;
 }
@@ -223,6 +216,7 @@ div.message.error {
 
 .App > div {
   max-width: 90% !important;
+  overflow: hidden;
 }
 
 .progress {
@@ -241,4 +235,30 @@ div.message.error {
 
 #password {
   padding-left: 45px;
+}
+
+.main-lat-logo {
+  width: 85%;
+  margin-bottom: 1.5rem;
+  margin-top: 1rem;
+}
+
+.bottom-links {
+  margin-top: 2rem;
+}
+
+.form-title {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.dark-background {
+  background-color: rgba(0, 0, 0, 0.067);
+}
+
+.full-bleed {
+  box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.067);
+  clip-path: inset(0 -100vmax);
+  padding: 20px;
+  margin-top: -25px;
 }
