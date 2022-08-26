@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons"
+import { faCheck, faTimes, faInfoCircle, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons"
 
 import { FormDataProps } from './MyForm';
 import Form from 'react-bootstrap/Form';
 import '../App.css'
+import { faLoveseat } from '@fortawesome/pro-duotone-svg-icons';
 
 export const USER_REGEX = /^[a-zA-Z0-9_]{3,23}$/;
 export const PWD_REGEX = /^(?=.*[a-x])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%"("")"]).{8,24}$/;
@@ -26,6 +27,7 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
     //Password Field State
     const [pwd, setPwd] = useState('');
     const [validPwd, setValidPwd] = useState(false);
+    const [pwdVision, setPwdVision] = useState(false);
     const [pwdFocus, setPwdFocus] = useState(false);
 
     const [errMsg, setErrMsg] = useState('');
@@ -39,16 +41,29 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
     useEffect(() => {
         const result = EML_REGEX.test(eml);
         // console.log("Result", result);
-        if (result) {setValidEml(true)}
-        else {setValidEml(false)}
+        if (!result) {
+            setValidEml(false)
+            setFormData({...formData, emlRegexPass: false})
+        }
+        else if (result) {
+            setValidEml(true)
+            setFormData({...formData, emlRegexPass: true})
+        }
         return 
     }, [eml])
     //3rd useEffect for the Password Regex and state
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
         //console.log(result, pwd);
-        if (result) {setValidPwd(true)}
-        else {setValidPwd(false)}
+        if (!result) {
+            setValidPwd(false)
+            setFormData({...formData, pwdRegexPass: false})
+        }
+        else if (result) {
+            setValidPwd(true)
+            setFormData({...formData, pwdRegexPass: true})
+        }
+        console.log()
         return 
     }, [pwd])
     //4th useEffect: Error Message
@@ -58,9 +73,8 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
     
 
     useEffect(() => {
-        setFormData({...formData, password: pwd, email: eml})
-        console.log(formData)
-    }, [eml,pwd])
+        setFormData({...formData, password: pwd, email: eml, emlRegexPass: validEml, pwdRegexPass: validPwd})
+    }, [eml,pwd, formData.pwdRegexPass, formData.emlRegexPass])
 
     /////////////////////////////////////////////////////////
     // const [emailIsValid, setEmailIsValid] = useState(false);
@@ -139,10 +153,20 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
             >
                 <Form.Label>Password</Form.Label>
                 <Form.Group className="row-input">
+                    <span 
+                        className="password-vision input-val-icons" 
+                        onClick={() => {
+                            setPwdVision(!pwdVision)
+
+                        }
+                    }>
+                        <FontAwesomeIcon icon={faEye}  className={!pwdVision ? "" : "hide"} />
+                        <FontAwesomeIcon icon={faEyeSlash}  className={pwdVision ? "" : "hide"} />
+                    </span>
                     <Form.Control 
                         // value={formData.password} 
                         value={pwd} 
-                        type="password" 
+                        type={pwdVision ? " text" : "password"}
                         id="password"
                         required
                         pattern='[A-Za-z0-9._+-]{8,}'

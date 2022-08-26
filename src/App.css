@@ -229,3 +229,16 @@ div.message.error {
   --bs-progress-bg: rgba(255, 255, 255, 0.457);
   --bs-progress-bar-bg: #8BBE8F;
 }
+
+.password-vision > svg {
+  position: absolute;
+  font-size: 25px;
+  margin-top: 10px;
+  margin-left: 8px;
+  opacity: 70%;
+  cursor: pointer;
+}
+
+#password {
+  padding-left: 45px;
+}

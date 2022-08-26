@@ -18,6 +18,8 @@ export interface FormProps {
         age: string,
         number: string,
         yourDataCorrect: boolean,
+        emlRegexPass: boolean,
+        pwdRegexPass: boolean,
     }
 }
 
@@ -28,6 +30,8 @@ export interface CompleteFormState {
     age: string,
     number: string,
     yourDataCorrect: boolean,
+    emlRegexPass: boolean,
+    pwdRegexPass: boolean,
 }
 
 export interface FormDataProps extends FormProps {
@@ -51,6 +55,8 @@ export default function MyForm() {
         age: "",
         number: "",
         yourDataCorrect: false,
+        emlRegexPass: false,
+        pwdRegexPass: false,
     })
 
     const formTitles=["Sign Up:", "Personal Info:", "Your Information:"]
@@ -72,10 +78,13 @@ export default function MyForm() {
         }
     }
 
+    console.log(formData.emlRegexPass, formData.pwdRegexPass)
+
     const nextButtDisabled = () => {
-        if (page === 0 && (formData.email.length === 0 || formData.password.length === 0 )) {
-            return true
-        } else if ( (page === 0) && (formData.name.length===0 || formData.age === "4" || formData.number.length===0)) {
+        // if (page === 0 && (formData.email.length === 0 || formData.password.length === 0 )) {
+        //     return true
+        // } else 
+        if ( page === 0 && ( formData.emlRegexPass == false || formData.pwdRegexPass == false )) {
             return true
         }else if ( (page === 1) && (formData.name.length===0 || formData.age === "4" || formData.number.length===0)) {
             return true
