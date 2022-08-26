@@ -1,0 +1,231 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  color: white;
+}
+
+.App {
+  text-align: center;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  z-index: -1;
+  background: rgb(34,193,195);
+  background: linear-gradient(
+    0deg, 
+    rgba(34,193,195,1) 0%, 
+    rgba(253,187,45,1) 100%);
+}
+
+.App:after {
+  background-image: url("/FUrfhkyXsAwgIof.jpeg");
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-top: 0;
+  pointer-events: none;
+  opacity: 40% !important;
+  font-size: 18px;
+  height: 100vh;
+}
+
+.form-page {
+  transition: 2s ease-in-out !important;
+  transition-delay: 500ms;
+}
+
+.row {
+  margin-top: 20px;
+  display: inline-flex !important;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+input {
+  background-color: rgba(95, 93, 107, 0.076) !important;
+  color: white !important;
+  outline: none !important;
+  font-size: 20px !important;
+}
+
+input:focus {
+  background-color: #342f2223 !important;
+  outline: none;
+  border: none;;
+}
+
+input::placeholder {
+  color: rgba(255, 255, 255, 0.46) !important;
+}
+
+.row input {
+  margin-left: 20px !important;
+}
+
+.row>* {
+  flex-shrink: unset !important;
+  width: unset !important;
+  max-width: unset !important;
+  padding-left: unset !important;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+.Info {
+  color: #26BCDE;
+}
+
+:disabled {
+  display: none;
+}
+
+.form-title {
+  color: white;
+  font-size: 30px;
+}
+
+label {
+  text-align: start !important;
+  width: 100%;
+  font-weight: 600;
+  color: white;
+}
+
+.your-info {
+  border: 1px solid rgb(203, 203, 203);
+  padding-top: 10px;
+  border-radius: 10px;
+  background-color: rgba(248, 248, 248, 0.361);
+}
+
+tr {
+  text-align: start;
+  border: none ;
+  width: 100% !important;
+}
+th {
+  text-align: end;
+  border: none ;
+  width: 50%;
+  white-space: nowrap;
+}
+
+td {
+  border: none;
+  width: 50%;
+}
+
+table {
+  width: min(70%) !important;
+  margin-inline: auto;
+}
+
+.form {
+  /* From https://css.glass */
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 16px !important;
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+
+/* //hide number input arrows: */
+/* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none !important;
+    margin: 0 !important;
+  }
+
+  input[type=number]::-webkit-inner-spin-button, 
+  input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none; 
+    margin: 0; 
+  }
+
+  /* Firefox */
+  input[type=number] {
+    -moz-appearance: textfield !important;
+  }
+
+.fadeIn {
+    opacity: 1 !important;
+    transition: opacity .5s ease-in-out !important;
+}
+
+.fadeOut {
+    opacity: 0 !important;
+    transition: opacity 1s ease-in-out !important;
+}
+
+.progress-bar {
+  background-color: #26BCBE;
+}
+
+.input-hint {
+  color: white;
+  text-align: start;
+  width: 100%;
+  font-weight: 400;
+  font-size: 14px;
+  margin-top: 10px;
+  padding-left: 10px;
+  display: block !important;
+}
+
+
+/* Regex Alert Messages */
+
+.offscreen {
+  position: absolute;
+  left: -9999px;
+}
+
+.valid {
+  color: rgb(156, 205, 50) !important;
+  margin-left: 0.25rem;
+}
+
+.hide {
+  display: none;
+}
+
+label.input-val-icons {
+  position: absolute;
+}
+
+label.input-val-icons span {
+  position: absolute !important;
+  font-size: 30px;
+  right: 110px;
+}
+
+.row-input {
+  display: flex;
+}
+
+.instructions {
+  margin-top: 10px;
+}
+
+.instructions svg {
+  margin-right: 10px;
+}
+
+div.message.error {
+  text-overflow: clip;
+}
+
+.App > div {
+  max-width: 90% !important;
+}
+
+.progress {
+  --bs-progress-bg: rgba(255, 255, 255, 0.457);
+  --bs-progress-bar-bg: #8BBE8F;
+}
