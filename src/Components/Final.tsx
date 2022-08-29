@@ -36,6 +36,10 @@ export default function Final({ formData, setFormData }: FormDataProps) {
                 <td className="Info">{formData.email}</td>
               </tr>
               <tr>
+                <th scope="row">Password:</th>
+                <td className="Info">{formData.password}</td>
+              </tr>
+              <tr>
                 <th scope="row">Name:</th>
                 <td className="Info">{formData.name}</td>
               </tr>

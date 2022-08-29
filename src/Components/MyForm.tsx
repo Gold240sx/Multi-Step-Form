@@ -24,6 +24,8 @@ export interface FormProps {
         yourDataCorrect: boolean,
         emlRegexPass: boolean,
         pwdRegexPass: boolean,
+        phoNoRegexPass: boolean,
+        nameCharLength: number,
     }
 }
 
@@ -36,6 +38,8 @@ export interface CompleteFormState {
     yourDataCorrect: boolean,
     emlRegexPass: boolean,
     pwdRegexPass: boolean,
+    phoNoRegexPass: boolean,
+    nameCharLength: number,
 }
 
 export interface FormDataProps extends FormProps {
@@ -47,7 +51,6 @@ export default function MyForm() {
     const [show, setShow] = useState(false);
     const [success, setSuccess] = useState(false);
     const toggleShow = () => setShow(!show);
-    // const [pwdTest, setPwdTest] = useState(false);
     
     // Firebase States
     const { error, isPending, signup } = useSignup()
@@ -55,13 +58,14 @@ export default function MyForm() {
     const [formData, setFormData] = useState({
         email: "",
         password: "",
-        confirmPassword: "",
         name: '',
         age: "",
         number: "",
         yourDataCorrect: false,
         emlRegexPass: false,
         pwdRegexPass: false,
+        phoNoRegexPass: false,
+        nameCharLength: "",
     })
 
     const formTitles=["Sign Up:", "Personal Info:", "Your Information:"]
@@ -83,13 +87,6 @@ export default function MyForm() {
         }
     }
 
-    // useEffect(() => {
-    //     const result = PWD_REGEX.test(formData.password);
-    //         console.log(result)
-    //         setPwdTest(true)
-    //     return 
-    // }, [formData.password])
-
     const numberOfPages = formTitles.length
 
     const calcPercent = () => {
@@ -110,13 +107,23 @@ export default function MyForm() {
         } else 
         if ( page === 0 && ( !formData.emlRegexPass || !formData.pwdRegexPass )) {
             return true
-        }else if ( (page === 1) && (formData.name.length===0 || formData.age === "4" || formData.number.length===0)) {
+        }
+        else if ( (page === 1) && ( Number(formData.nameCharLength) === 0 || Number(formData.age) < 4 || Number(formData.age) > 100 ||formData.number.length===0)) {
             return true
-        } else if ((page === 2) && (!formData.yourDataCorrect && page===2)) {
+        } else if ((page === 1) && (Number(formData.nameCharLength) < 2 || formData.number.length < 10)){ 
+            return true
+        }
+        else if ((page === 2) && (!formData.yourDataCorrect && page===2)) {
             return true
         }
         return false;
     }
+
+    useEffect(() => {
+        return () => {
+            console.log(formData)
+        }
+    }, [formData])
 
 
     return (
@@ -152,7 +159,8 @@ export default function MyForm() {
                             className="mx-3"
                             style={{"backgroundColor":"#FDBB2C", "color":"black", "border":"none"}}
                             disabled={prevButtDisabled()}
-                            onClick={() => {
+                            onClick={(e:any) => {
+                                e.preventDefault()
                                 setPage((currPage) => currPage-1)
                             }}
                             > Prev
