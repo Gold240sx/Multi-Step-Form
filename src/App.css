@@ -112,6 +112,10 @@ table {
   margin-inline: auto;
 }
 
+input[type='checkbox'] {
+  cursor: pointer;
+}
+
 .form {
   /* From https://css.glass */
   background: rgba(255, 255, 255, 0.2);
@@ -150,10 +154,6 @@ table {
 .fadeOut {
     opacity: 0 !important;
     transition: opacity 1s ease-in-out !important;
-}
-
-.progress-bar {
-  background-color: #26BCBE;
 }
 
 .input-hint {
@@ -220,8 +220,57 @@ div.message.error {
 }
 
 .progress {
-  --bs-progress-bg: rgba(255, 255, 255, 0.457);
-  --bs-progress-bar-bg: #8BBE8F;
+  --bs-progress-bg: rgba(255, 255, 255, 0.657);
+  overflow: hidden;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.34) inset, 0 1px 0 rgba(68, 68, 68, 0.145) !important;
+}
+
+@keyframes animate-stripes {
+  0% {
+      background-position: 60px 0;
+  }
+
+  100% {
+      background-position: 0 0;
+  }
+}
+
+.progress-bar {
+  /* background-image: repeating-linear-gradient(45deg, transparent, transparent 12px,#8bbdbe 12px, #8bbdbe 24px); */
+  background-color: #68adae;
+  /* background-position-x: -303px; */
+  font-weight: 800;
+  opacity: .9;
+  border-radius: 0 4px 4px 0 !important;
+  mix-blend-mode: multiply
+}
+
+.stripes {
+  background-size: 30px 30px;
+  background-image: linear-gradient(
+      135deg,
+      rgb(255, 255, 255) 25%,
+      transparent 25%,
+      transparent 50%,
+      rgb(255, 255, 255) 50%,
+      rgb(255, 255, 255) 75%,
+      transparent 75%,
+      transparent
+  );
+}
+
+.stripes.animated {
+  animation: animate-stripes 1.25s linear infinite;
+}
+
+.progress-bar-inner {
+  display: block;
+  height: 45px;
+  width: 0%;
+  background-color: #34c2e3;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.932) inset;
+  position: relative;
+  animation: auto-progress 10s infinite linear;
 }
 
 .password-vision > svg {
@@ -261,4 +310,31 @@ div.message.error {
   clip-path: inset(0 -100vmax);
   padding: 20px;
   margin-top: -25px;
+}
+
+.row1 {
+  display: flex;
+  justify-items: left !important;
+  font-size: 20px;
+  align-items: center;
+  border: 2px solid rgba(255, 255, 255, 0.409);
+  padding-inline: 20px;
+  border-radius: 20px;
+  padding: 5px 20px;
+}
+
+.progress {
+  width: 100% !important;
+  margin-left: 15px;
+}
+
+.calc-number {
+  /* margin-top: 14px; */
+  font-weight: 400;
+}
+
+p {
+  margin: 0 0 0 0;
+  margin-block-start: 0;
+  margin-inline-start: 0;
 }

@@ -12,6 +12,8 @@ import latLogo from '../assets/Main White Lateral with Circle.png'
 // Javascript Functions
 import { useSignup } from '../Hooks/useSignup'
 
+import { PWD_REGEX } from './Signup';
+
 export interface FormProps {
     formData: {
         email: string,
@@ -45,6 +47,7 @@ export default function MyForm() {
     const [show, setShow] = useState(false);
     const [success, setSuccess] = useState(false);
     const toggleShow = () => setShow(!show);
+    // const [pwdTest, setPwdTest] = useState(false);
     
     // Firebase States
     const { error, isPending, signup } = useSignup()
@@ -80,20 +83,12 @@ export default function MyForm() {
         }
     }
 
-    console.log(formData.emlRegexPass, formData.pwdRegexPass)
-
-    const nextButtDisabled = () => {
-        // if (page === 0 && (formData.email.length === 0 || formData.password.length === 0 )) {
-        //     return true
-        // } else 
-        if ( page === 0 && ( formData.emlRegexPass == false || formData.pwdRegexPass == false )) {
-            return true
-        }else if ( (page === 1) && (formData.name.length===0 || formData.age === "4" || formData.number.length===0)) {
-            return true
-        } else if ((page === 2) && (!formData.yourDataCorrect && page===2)) {
-            return true
-        }
-    }
+    // useEffect(() => {
+    //     const result = PWD_REGEX.test(formData.password);
+    //         console.log(result)
+    //         setPwdTest(true)
+    //     return 
+    // }, [formData.password])
 
     const numberOfPages = formTitles.length
 
@@ -108,6 +103,21 @@ export default function MyForm() {
             toggleShow(show ? "hide" : "show")
         };
     }, [])
+
+    const nextButtDisabled = () => {
+        if (page === 0 && (formData.email.length === 0 || formData.password.length === 0 )) {
+            return true
+        } else 
+        if ( page === 0 && ( !formData.emlRegexPass || !formData.pwdRegexPass )) {
+            return true
+        }else if ( (page === 1) && (formData.name.length===0 || formData.age === "4" || formData.number.length===0)) {
+            return true
+        } else if ((page === 2) && (!formData.yourDataCorrect && page===2)) {
+            return true
+        }
+        return false;
+    }
+
 
     return (
         <>
@@ -128,7 +138,12 @@ export default function MyForm() {
                     <div>
                         <div className="dark-background full-bleed">
                             <img src={latLogo} className="main-lat-logo"/>
-                            <ProgressBar now={calcPercent()} label={`${calcPercent()}%`} style={{"marginBottom": "20px"}} />
+                            <div>
+                                <div className="100 row1">
+                                    <p className='calc-number'>{`${calcPercent()}%`}</p> 
+                                    <ProgressBar now={calcPercent()} className="stripes slower" />
+                                </div>
+                            </div>
                         </div>
                         <h3 className="form-title">{formTitles[page] }</h3>
                         {formDisplay()}

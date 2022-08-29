@@ -7,8 +7,9 @@ import { FormDataProps } from './MyForm';
 import Form from 'react-bootstrap/Form';
 import '../App.css'
 import { faLoveseat } from '@fortawesome/pro-duotone-svg-icons';
+import { connectFirestoreEmulator } from 'firebase/firestore';
 
-export const USER_REGEX = /^[a-zA-Z0-9_]{3,23}$/;
+export const USER_REGEX = /^[a-zA-Z0-9_]{3,14}$/;
 export const PWD_REGEX = /^(?=.*[a-x])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%"("")"]).{8,24}$/;
 export const EML_REGEX =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -16,13 +17,13 @@ export const EML_REGEX =  /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(
 export default function Signup({ formData, setFormData }: FormDataProps) {
     const emlRef = useRef(); //one for the user input (places focus on user input when the site loads)
     const errRef = useRef();  //places focus on the error if at any point we recieve an error for screenreader accessibility
+    const pwdRef = useRef();
     
     //User Field State
     const [eml, setEml] = useState('');
     const [validEml, setValidEml] = useState(false);
     const [emlFocus, setEmlFocus] = useState(false);
     const [emlMsg, setEmlMsg] = useState('');
-
 
     //Password Field State
     const [pwd, setPwd] = useState('');
@@ -33,24 +34,37 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
     const [errMsg, setErrMsg] = useState('');
     const [success, setSuccess] = useState(false);
 
+    const stripes = document.querySelector('.stripes')
+
     //1st useEffect sets the focus when the component loads
     useEffect(() => {
         emlRef.current.focus();
     }, [])
-    //2rd useEffect for email, status on failed submission
+
     useEffect(() => {
-        const result = EML_REGEX.test(eml);
-        // console.log("Result", result);
-        if (!result) {
-            setValidEml(false)
-            setFormData({...formData, emlRegexPass: false})
-        }
-        else if (result) {
-            setValidEml(true)
-            setFormData({...formData, emlRegexPass: true})
-        }
-        return 
-    }, [eml])
+        setFormData({...formData, password: pwd, email: eml, emlRegexPass: validEml, pwdRegexPass: validPwd})
+    }, [eml,pwd, formData.pwdRegexPass, formData.emlRegexPass])
+
+    useEffect(() => {
+        eml.length > 0 ? stripes?.classList.add('animated') : 
+        stripes?.classList.remove('animated');
+    },[eml])
+        //2rd useEffect for email, status on failed submission
+        useEffect(() => {
+            const result = EML_REGEX.test(eml);
+            // console.log("Result", result);
+            if (!result) {
+                setValidEml(false)
+                setFormData({...formData, emlRegexPass: false})
+            }
+            else if (result) {
+                setValidEml(true)
+                setFormData({...formData, emlRegexPass: true})
+            }
+            return 
+        }, [eml])
+
+
     //3rd useEffect for the Password Regex and state
     useEffect(() => {
         const result = PWD_REGEX.test(pwd);
@@ -63,18 +77,12 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
             setValidPwd(true)
             setFormData({...formData, pwdRegexPass: true})
         }
-        console.log()
         return 
-    }, [pwd])
+    }, [pwd, setPwd])
     //4th useEffect: Error Message
     useEffect(() => {
         setErrMsg('')
     }, [ eml, pwd])
-    
-
-    useEffect(() => {
-        setFormData({...formData, password: pwd, email: eml, emlRegexPass: validEml, pwdRegexPass: validPwd})
-    }, [eml,pwd, formData.pwdRegexPass, formData.emlRegexPass])
 
     /////////////////////////////////////////////////////////
     // const [emailIsValid, setEmailIsValid] = useState(false);
@@ -126,8 +134,12 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
                         aria-label="email Input" 
                         aria-invalid={validEml ? "false" : "true"}
                         aria-describedby="emlnote"
-                        onChange={(e) => setEml(e.target.value)}
-                        onFocus={() => setEmlFocus(true)}
+                        onChange={(e) => {
+                            setEml(e.target.value)
+                        }}
+                        onFocus={() => {
+                            setEmlFocus(true)
+                        }}
                         onBlur={() => setEmlFocus(false)}
                     />
                     <Form.Label className="input-val-icons" htmlFor="email">
@@ -160,8 +172,16 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
 
                         }
                     }>
-                        <FontAwesomeIcon icon={faEye}  className={!pwdVision ? "" : "hide"} />
-                        <FontAwesomeIcon icon={faEyeSlash}  className={pwdVision ? "" : "hide"} />
+                        <FontAwesomeIcon 
+                            icon={faEye}  
+                            className={!pwdVision ? "" : "hide"} 
+                            // onClick={pwdRef.current.focus()}
+                        />
+                        <FontAwesomeIcon 
+                            icon={faEyeSlash}  
+                            className={pwdVision ? "" : "hide"} 
+                            // onClick={pwdRef.current.focus()}
+                        />
                     </span>
                     <Form.Control 
                         // value={formData.password} 
@@ -169,11 +189,12 @@ export default function Signup({ formData, setFormData }: FormDataProps) {
                         type={pwdVision ? " text" : "password"}
                         id="password"
                         required
-                        pattern='[A-Za-z0-9._+-]{8,}'
+                        // ref={pwdRef}
                         placeholder="Enter Password" 
                         aria-label="Password Input" 
                         aria-invalid={validPwd ? "false" : "true"}
                         aria-describedby="pwdnote"
+                        tabIndex={0}
                         onChange={(e) => setPwd(e.target.value)}
                         onFocus={() => setPwdFocus(true)}
                         onBlur={() => setPwdFocus(false)}
