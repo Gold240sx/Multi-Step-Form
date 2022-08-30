@@ -9,7 +9,6 @@ export default function PersonalInfo({ formData, setFormData }: FormDataProps) {
   const [page, setPage] = useState(0)
   const [show, setShow] = useState(false);
 
-  const [forNo, setForNo] = useState('')
   const [name, setName] = useState('')
   const [forName, setForName] = useState('')
   const [nameCharLength, setNameCharLength] = useState(0)
@@ -31,28 +30,24 @@ export default function PersonalInfo({ formData, setFormData }: FormDataProps) {
     };
   }, [])
 
-
-  const phoneNoFormat = (unForNo:any) => {
-
+   const phoneNoFormat = (unForNo:any, formData:any) => {
     const currentValue = unForNo.replace(/[^\d]/g, '');
     const cvLength = currentValue.length; 
 
+    console.log(cvLength)
     if (cvLength < 10){ 
-        if (cvLength < 4) {
-          setForNo(currentValue)
-          setFormData({...formData, number: forNo}) 
-        }
-        else if (cvLength < 7) {
-          setForNo(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`)
-          setFormData({...formData, number: forNo}) 
-        }
-        else {setForNo(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`)};
-        setFormData({...formData, number: forNo}) 
-    } else if (cvLength === 10){
-        setForNo(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`)
-        setFormData({...formData, number: forNo})
-    } else { return forNo }
-
+      if (cvLength < 4) {
+        return currentValue
+      }
+      else if (cvLength < 7) {
+        return(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3)}`)
+      }
+    }
+    if (cvLength >10) {
+      return(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 11).slice(0, -1)}`)
+    } else {
+      return(`(${currentValue.slice(0, 3)}) ${currentValue.slice(3, 6)}-${currentValue.slice(6, 10)}`)
+    };
   }
 
   const nameFormat = (unFoName:any, forName:any) => {
@@ -111,7 +106,7 @@ export default function PersonalInfo({ formData, setFormData }: FormDataProps) {
             placeholder="(xxx) xxx-xxxx"
             aria-label="Phone-Number Input" 
             onChange={(e:any) => {
-              setFormData({...formData, number: phoneNoFormat(e.target.value)})
+              setFormData({...formData, number: phoneNoFormat(e.target.value, formData)})
             }}
           />
         </Form.Group>
